@@ -1,8 +1,7 @@
 TERMUX_PKG_HOMEPAGE=https://asciidoctor.org/
 TERMUX_PKG_DESCRIPTION="An implementation of AsciiDoc in Ruby"
 TERMUX_PKG_LICENSE="MIT"
-TERMUX_PKG_VERSION=2.0.10
-TERMUX_PKG_REVISION=2
+TERMUX_PKG_VERSION=2.0.12
 TERMUX_PKG_DEPENDS="ruby"
 TERMUX_PKG_SKIP_SRC_EXTRACT=true
 TERMUX_PKG_BUILD_IN_SRC=true
@@ -24,4 +23,10 @@ termux_step_make_install() {
 
 	install -Dm600 "$gemdir/gems/asciidoctor-${TERMUX_PKG_VERSION}/man/asciidoctor.1" \
 		"$TERMUX_PREFIX/share/man/main1/asciidoctor.1"
+}
+
+termux_step_install_license() {
+	local gemdir="$TERMUX_PREFIX/lib/ruby/gems/${_RUBY_VERSION}.0"
+	mkdir -p $TERMUX_PREFIX/share/doc/asciidoctor
+	cp $gemdir/gems/asciidoctor-${TERMUX_PKG_VERSION}/LICENSE $TERMUX_PREFIX/share/doc/asciidoctor/
 }

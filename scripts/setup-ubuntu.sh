@@ -6,6 +6,9 @@ PACKAGES=""
 # For en_US.UTF-8 locale.
 PACKAGES+=" locales"
 
+# To provide /usr/bin/python as symlink to /usr/bin/python3
+PACKAGES+=" python-is-python3"
+
 # Used by build-package.sh and CI/CD scripts.
 PACKAGES+=" curl"
 PACKAGES+=" gnupg"
@@ -53,6 +56,8 @@ PACKAGES+=" xmlto"
 # Needed by python modules (e.g. asciinema) and some build systems.
 PACKAGES+=" python3.7"
 PACKAGES+=" python3.8"
+PACKAGES+=" python3.9"
+PACKAGES+=" python3-pip"
 PACKAGES+=" python3-setuptools"
 
 # Needed by package bc.
@@ -89,10 +94,14 @@ PACKAGES+=" re2c"
 
 # Needed by package rust.
 PACKAGES+=" libssl-dev" # Needed to build Rust
+PACKAGES+=" clang-10"
 
 # Needed for package smalltalk.
 PACKAGES+=" libsigsegv-dev"
 PACKAGES+=" zip"
+
+# Needed for package sqlcipher.
+PACKAGES+=" tcl"
 
 # Needed by package swi-prolog.
 PACKAGES+=" openssl"
@@ -100,19 +109,23 @@ PACKAGES+=" zlib1g-dev"
 PACKAGES+=" libssl-dev:i386"
 PACKAGES+=" zlib1g-dev:i386"
 
-# So we don't build llvm for build.
-PACKAGES+=" llvm-8-tools"
-
 # For swift.
-PACKAGES+=" clang-9"
-PACKAGES+=" libtinfo5"
 PACKAGES+=" lld"
+
+# Needed by wrk.
+PACKAGES+=" luajit"
 
 # Needed by gitea.
 PACKAGES+=" npm"
 
+# Needed by libduktape (2.5.0 still uses python2 unfortunately)
+PACKAGES+=" python-yaml"
+
 # Java.
 PACKAGES+=" openjdk-8-jdk"
+
+# needed by ovmf
+PACKAGES+=" libarchive-tools"
 
 # Needed by packages in unstable repository.
 PACKAGES+=" docbook-to-man"
@@ -121,18 +134,42 @@ PACKAGES+=" erlang-nox"
 PACKAGES+=" libgc-dev"
 PACKAGES+=" libgmp-dev"
 PACKAGES+=" libunistring-dev"
-PACKAGES+=" llvm-9-dev"
+PACKAGES+=" libparse-yapp-perl"
+PACKAGES+=" heimdal-multidev"
+PACKAGES+=" comerr-dev"
+PACKAGES+=" llvm-10-tools"
+PACKAGES+=" llvm-10-dev"
+PACKAGES+=" libevent-dev"
+PACKAGES+=" libreadline-dev"
+PACKAGES+=" libconfig-dev"
+PACKAGES+=" libjansson-dev"
 
 # Needed by packages in X11 repository.
+PACKAGES+=" alex"
 PACKAGES+=" docbook-xsl-ns"
 PACKAGES+=" gnome-common"
 PACKAGES+=" gobject-introspection"
 PACKAGES+=" gtk-3-examples"
 PACKAGES+=" gtk-doc-tools"
+PACKAGES+=" happy"
 PACKAGES+=" itstool"
 PACKAGES+=" libgdk-pixbuf2.0-dev"
-PACKAGES+=" python-xcbgen"
+PACKAGES+=" python-setuptools"
+PACKAGES+=" python3-xcbgen"
+PACKAGES+=" texlive-extra-utils"
+PACKAGES+=" xfce4-dev-tools"
 PACKAGES+=" xfonts-utils"
+
+# Needed by packages in science repository
+PACKAGES+=" sqlite3"
+PACKAGES+=" protobuf-c-compiler"
+
+# Needed by packages in game repository
+PACKAGES+=" python3-yaml"
+PACKAGES+=" cvs"
+
+# Needed by apt.
+PACKAGES+=" triehash"
 
 # Do not require sudo if already running as root.
 if [ "$(id -u)" = "0" ]; then
@@ -151,5 +188,6 @@ $SUDO DEBIAN_FRONTEND=noninteractive \
 $SUDO locale-gen --purge en_US.UTF-8
 echo -e 'LANG="en_US.UTF-8"\nLANGUAGE="en_US:en"\n' | $SUDO tee -a /etc/default/locale
 
-$SUDO mkdir -p /data/data/com.termux/files/usr
+. $(dirname "$(realpath "$0")")/properties.sh
+$SUDO mkdir -p $TERMUX_PREFIX
 $SUDO chown -R $(whoami) /data

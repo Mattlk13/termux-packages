@@ -1,11 +1,11 @@
 TERMUX_PKG_HOMEPAGE=https://github.com/sharkdp/bat
 TERMUX_PKG_DESCRIPTION="A cat(1) clone with wings"
 TERMUX_PKG_LICENSE="Apache-2.0"
-TERMUX_PKG_VERSION=0.13.0
+TERMUX_PKG_VERSION=0.16.0
 TERMUX_PKG_SRCURL=https://github.com/sharkdp/bat/archive/v$TERMUX_PKG_VERSION.tar.gz
-TERMUX_PKG_SHA256=f4aee370013e2a3bc84c405738ed0ab6e334d3a9f22c18031a7ea008cd5abd2a
+TERMUX_PKG_SHA256=4db85abfaba94a5ff601d51b4da8759058c679a25b5ec6b45c4b2d85034a5ad3
 # bat calls less with '--RAW-CONTROL-CHARS' which busybox less does not support:
-TERMUX_PKG_DEPENDS="less, zlib"
+TERMUX_PKG_DEPENDS="less, libgit2"
 TERMUX_PKG_BUILD_IN_SRC=true
 
 termux_step_pre_configure() {
@@ -14,6 +14,7 @@ termux_step_pre_configure() {
 	# See https://github.com/nagisa/rust_libloading/issues/54
 	export CC_x86_64_unknown_linux_gnu=gcc
 	export CFLAGS_x86_64_unknown_linux_gnu=""
+	export LIBGIT2_SYS_USE_PKG_CONFIG=1 
 }
 
 termux_step_post_make_install() {

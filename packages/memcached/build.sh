@@ -1,9 +1,9 @@
 TERMUX_PKG_HOMEPAGE=https://memcached.org/
 TERMUX_PKG_DESCRIPTION="Free & open source, high-performance, distributed memory object caching system"
 TERMUX_PKG_LICENSE="GPL-2.0"
-TERMUX_PKG_VERSION=1.6.5
+TERMUX_PKG_VERSION=1.6.9
 TERMUX_PKG_SRCURL=https://www.memcached.org/files/memcached-$TERMUX_PKG_VERSION.tar.gz
-TERMUX_PKG_SHA256=1f4da3706fc13c33be9df97b2c1c8d7b0891d5f0dc88aebc603cb178e68b27df
+TERMUX_PKG_SHA256=d5a62ce377314dbffdb37c4467e7763e3abae376a16171e613cbe69956f092d1
 TERMUX_PKG_DEPENDS="libevent, libsasl"
 TERMUX_PKG_BREAKS="memcached-dev"
 TERMUX_PKG_REPLACES="memcached-dev"
@@ -15,7 +15,7 @@ termux_step_pre_configure() {
 
 	export ac_cv_c_endian=little
 
-	# fix SASL configuration path
+	# Fix SASL configuration path
 	perl -p -i -e "s#/etc/sasl#$TERMUX_PREFIX/etc/sasl#" $TERMUX_PKG_BUILDDIR/sasl_defs.c
 
 	# getsubopt() taken from https://github.com/lxc/lxc/blob/master/src/include/getsubopt.c

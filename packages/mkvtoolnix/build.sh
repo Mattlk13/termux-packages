@@ -1,10 +1,10 @@
 TERMUX_PKG_HOMEPAGE=https://www.bunkus.org/videotools/mkvtoolnix/
 TERMUX_PKG_DESCRIPTION="Set of tools to create, edit and inspect Matroska files"
 TERMUX_PKG_LICENSE="GPL-2.0"
-TERMUX_PKG_VERSION=45.0.0
+TERMUX_PKG_VERSION=51.0.0
 TERMUX_PKG_SRCURL=https://gitlab.com/mbunkus/mkvtoolnix/-/archive/release-$TERMUX_PKG_VERSION/mkvtoolnix-release-$TERMUX_PKG_VERSION.tar.gz
-TERMUX_PKG_SHA256=0658e27a688d863ecc059d5ac401e88320d78de7ab5ac2cba96af2e5d6bb5072
-TERMUX_PKG_DEPENDS="boost, file, libflac, libogg, libvorbis, zlib"
+TERMUX_PKG_SHA256=d1962f183ee9712a2211ff0a798984fa1140e9ee267ff843adbc66a969edf284
+TERMUX_PKG_DEPENDS="boost, file, libflac, libogg, libvorbis, pcre2, zlib"
 TERMUX_PKG_BUILD_DEPENDS="fmt, libebml, libmatroska"
 TERMUX_PKG_BUILD_IN_SRC=true
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS="

@@ -3,7 +3,7 @@
 #  Script for generating metadata for Repology in json format.
 #
 #  Copyright 2018 Fredrik Fornwall <fredrik@fornwall.net> @fornwall
-#  Copyright 2019 Leonid Plyushch <leonid.plyushch@gmail.com> @xeffyr
+#  Copyright 2019-2020 Leonid Pliushch <leonid.pliushch@gmail.com> @xeffyr
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ set -e
 
 BASEDIR=$(dirname "$(realpath "$0")")
 export TERMUX_ARCH=aarch64
+. $(dirname "$(realpath "$0")")/../properties.sh
 
 check_package() { # path
 	# Avoid ending on errors such as $(which prog)
@@ -30,7 +31,7 @@ check_package() { # path
 
 	local path=$1
 	local pkg=$(basename $path)
-	TERMUX_PKG_MAINTAINER="Fredrik Fornwall @fornwall"
+	TERMUX_PKG_MAINTAINER="Termux members @termux"
 	TERMUX_PKG_API_LEVEL=24
 	. $path/build.sh
 
@@ -61,14 +62,6 @@ check_package() { # path
 	echo -n "  }"
 }
 
-check_excluded() {
-	if grep -q "^$1\$" "$BASEDIR/excluded_packages.txt"; then
-		return 0
-	else
-		return 1
-	fi
-}
-
 if [ $# -eq 0 ]; then
 	echo "Usage: generate-repology-metadata.sh [./path/to/pkg/dir] ..."
 	echo "Generate package metadata for Repology."
@@ -78,10 +71,6 @@ fi
 export FIRST=yes
 echo '['
 for path in "$@"; do
-	if check_excluded $(basename "$path"); then
-		continue
-	fi
-
 	if [ $FIRST = yes ]; then
 		FIRST=no
 	else
